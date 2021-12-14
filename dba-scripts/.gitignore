@@ -1,0 +1,22 @@
+#Files specific to Olson
+*olson*
+*idera*
+*yosemite*
+*sensu*
+hgp*
+*Hyatt*
+dlb*
+*Darden*
+pfc*
+agr*
+*Amtrak*
+hhh*
+*Hilton*
+*pvilo*
+*pvlo*
+GenerateRestoreScripts*
+RestoreExamples.sql
+
+#Unwanted file types
+*.zip
+.DS_Store
