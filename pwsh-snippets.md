@@ -1,5 +1,41 @@
 # PowerShell
 
+## Function structure
+```powershell
+# Accept parameters
+Function Do-Thing {
+    Param
+    (
+      [Parameter(Mandatory=$true, Position=1)][String]$FirstParam, # Positional parameters
+      [Parameter(Mandatory=$true, Position=2)][String]$SecondParam,
+      [Parameter[switch]$HasBooleanValue, # True if supplied, false if not
+      [Parameter(Mandatory=$false)][String] $DefaultParam = "Default", # Default parameter value
+      [Parameter(Mandatory=$false)][Hashtable]$SplatParam
+    )
+}
+```
+
+## Common script boilerplate
+```powershell
+# Get the path of the script
+$ScriptPath = $PSCommandPath;
+$ScriptFolder = Split-Path -Path $PSCommandPath -Parent;
+
+# Wait for user input
+Read-Host "Do a thing, then press any key to continue"
+
+# Manage error responses
+$MyVar = Get-Item -Path "$MyPath" -ErrorAction SilentlyContinue # Ignore errors
+if ($null -eq $MyVar) { $MyVar = "/my/alternate/path" }
+
+try {
+   $MyVar = Get-Item -Path "$MyPath" -ErrorAction Stop # Force non-terminating errors to trigger the catch block
+}
+catch {
+   Write-Host "Whoops!"
+}
+```
+
 ## Utility functions
 ```powershell
 # Measure elapsed time with a stopwatch object
