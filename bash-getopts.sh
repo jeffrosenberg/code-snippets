@@ -28,7 +28,7 @@ EOF
 
 # Display errors
 error() {
-  printf "$1\n\n"
+  printf '%s\n\n' "$1"
   usage
   exit 1
 } >&2

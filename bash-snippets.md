@@ -84,10 +84,28 @@ IFS=':' read -r out1 out2 <<< "$input_variable"
 while IFS=':' read -r out1 out2 out3; do
   # ... 
 done <<< "$input_variable"
+
+# Read file line by line
+while IFS= read -r line; do
+  echo "$line"
+done < "$file"
+
+# Read a file into an array of lines
+
+# readarray (Bash 4+)
+declare -a lines
+readarray -t lines <"$file"
+
+# read (portable)
+declare -a lines
+IFS=$'\n' read -r -d '' -a lines < "$file"
 ```
 
 ## Loops
 ```bash
+# For loop over array
+for val in "${array[@]}"; do echo "$val"; done
+
 # For loop over monotonic integers
 for (( i=0; i<3; i++)); do HASH="$HASH#"; done
 
