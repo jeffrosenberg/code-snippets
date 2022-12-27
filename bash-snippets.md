@@ -90,6 +90,13 @@ done <<< "$input_variable"
 ```bash
 # For loop over monotonic integers
 for (( i=0; i<3; i++)); do HASH="$HASH#"; done
+
+# For loop over subdirectories
+for dir in $(ls -1); do
+  pushd "$dir"
+  pwd
+  popd
+done
 ```
 
 ## Here docs
