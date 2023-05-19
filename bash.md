@@ -115,6 +115,12 @@ for dir in $(ls -1); do
   pwd
   popd
 done
+
+# Infinite while loop
+# Why colon instead of true? https://stackoverflow.com/questions/10797835/while-vs-while-true
+while :; do date; sleep 10s; done
+while sleep 10s; do date; done # Will repeat assuming `sleep 10s` succeeds
+while date; do sleep 10s; done # Will repeat assuming `date` succeeds
 ```
 
 ## Here docs

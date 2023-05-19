@@ -13,24 +13,28 @@
 ## View pods
 
 ```bash
+# View multiple pods (or other resources)
+kubectl get pods
+kubectl get pods -o wide # show more data
+kubectl get pods --show-labels # show labels, can be combined with arguments like -o wide
+
+# Find pod(s) by selector label
+kubectl get pods -l ${label}
+kubectl get pods --selector ${label}
+kubectl get pods --selector ${label1} --selector ${label2} # label1 OR label2
+kubectl get pods --selector "${label1},${label2}" # label1 AND label2
+
 # View the definition of an existing pod (or other resource)
 kubectl get pod ${name} -o yaml
 kubectl neat get pod ${name} -o yaml
 
-# Find a pod by selector label
-kubectl get pods -l ${label}
-kubectl get pods --selector ${label}
-
-kubectl get pods --selector ${label1} --selector ${label2} # label1 OR label2
-kubectl get pods --selector "${label1},${label2}" # label1 AND label2
-
-# Pod output options
+# Output options for a single pod
 kubectl get pod ${filter} -o yaml
 kubectl get pod ${filter} -o json
 kubectl get pod ${filter} -o name
 ```
 
-# Find a container within a pod
+## Find a container within a pod
 ```bash
 json=$(kubectl get pod ${filter} -o json)
 containers=$(echo ${json} | jq '.spec.containers[].name')
@@ -38,6 +42,20 @@ echo $containers
 initContainers=$(echo ${json} | jq '.spec.initContainers[].name')
 echo $initContainers
 # container=$(echo $json | jq "select(.items[].spec.containers[]${container_filter})" | jq '.items[].spec.containers[].name')
+```
+
+## Manage resources generally
+
+```bash
+# This general pattern would be useful for a lot of different kubectl commands
+kubectl get pods | grep Name | awk '{print $1}' | xargs kubectl delete pod
+# Another (simpler) version of the above with more recent versions of kubectl
+kubectl get pods -o name | grep Name | xargs kubectl delete
+
+# Show resources remaining in a namespace
+kubectl api-resources --verbs=list --namespaced -o name |
+  xargs -n 1 kubectl get --show-kind --ignore-not-found -n <namespace>
+
 ```
 
 ## Manage pods
