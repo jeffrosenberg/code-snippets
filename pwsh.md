@@ -1,6 +1,8 @@
 # PowerShell
 
-## Function structure
+## Structure
+
+### Function structure
 ```powershell
 # Accept parameters
 Function Do-Thing {
@@ -15,6 +17,37 @@ Function Do-Thing {
 }
 ```
 
+### Module structure
+
+A few good docs about creating a PowerShell module:
+- https://learn.microsoft.com/en-us/powershell/scripting/developer/module/understanding-a-windows-powershell-module
+- https://learn.microsoft.com/en-us/powershell/scripting/developer/module/how-to-write-a-powershell-module-manifest
+- https://ramblingcookiemonster.github.io/Building-A-PowerShell-Module/
+
+For an example, see `pwsh-module/`
+Instantiate that module using:
+
+```powershell
+Import-Module ./pwsh-module/MyModule.psd1
+```
+
+## String formatting
+
+Lots of options and good explanation [here](https://learn.microsoft.com/en-us/powershell/scripting/learn/deep-dives/everything-about-string-substitutions).
+
+## Remote execution
+
+```powershell
+Invoke-Command -ComputerName $machineName -ScriptBlock { Write-Host "This will actually run on $machineName" }
+```
+
+## CLI commands
+
+```powershell
+# Create a symbolic link
+New-Item -ItemType SymbolicLink -Path "settings.json" -Target "$Env:DOTFILES/VSCode/settings.json"
+```
+
 ## Common script boilerplate
 ```powershell
 # Get the path of the script
@@ -23,6 +56,8 @@ $ScriptFolder = Split-Path -Path $PSCommandPath -Parent;
 
 # Wait for user input
 Read-Host "Do a thing, then press any key to continue"
+$test = Read-Host "Enter a value, then press enter"
+Write-Host $test
 
 # Manage error responses
 $MyVar = Get-Item -Path "$MyPath" -ErrorAction SilentlyContinue # Ignore errors
@@ -34,6 +69,28 @@ try {
 catch {
    Write-Host "Whoops!"
 }
+
+# Set output levels
+
+# Must set these to strings, i.e. "Continue" vs Continue
+$DebugPreference = "Continue" # Show the debug stream
+$DebugPreference = "SilentlyContinue" # Hide the debug stream
+$DebugPreference = "Stop" # Stop executing and print the message -- this is uncommon to use for Debug
+$DebugPreference = "Inquire" # Print the message and ask whether the user wants to continue
+
+<#
+Similar preference variables:
+
+$ErrorActionPreference
+$InformationPreference
+$ProgressPreference
+$VerbosePreference
+$WarningPreference
+
+For more details:
+Preference variables: https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_preference_variables
+Output streams:       https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_output_streams
+#>
 ```
 
 ## Utility functions
