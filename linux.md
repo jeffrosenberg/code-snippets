@@ -1,4 +1,31 @@
-# Control networking from the CLI -- use nmcli
+# Linux
+
+## Get current version
+
+```bash
+lsb_release -a
+```
+
+## SSH
+
+> TODO: Add snippet for creating SSH keys next time I need to do it
+
+```bash
+# For frequently accessed machines, copy my SSH key
+ssh-copy-id <machine_name>
+
+# Run a single command (or pipeline of commands) without an interactive prompt
+ssh user1@server1 command1
+ssh user1@server1 'command2'
+ssh user1@server1 'command1 | command2'
+ssh user1@server1 "command1; command2; command3"
+
+# Copy a file from an SSH connection using scp
+scp user1@server1:/path/to/file /path/to/local/file
+```
+
+
+## Control networking from the CLI -- use nmcli
 
 ```
 $ nmcli --help
@@ -84,3 +111,18 @@ nmcli con up <ssid/uuid>
 ```
 
 Need to sign into a captive portal? Use http://neverssl.com
+
+## cURL
+
+Return response headers: `-i`/`-I`.
+`-i` includes headers, `-I` returns headers instead of the full response.
+
+```
+$ curl -kI https://myapp/health/status
+HTTP/1.1 404 Not Found
+Content-Length: 1245
+Content-Type: text/html
+Server: Microsoft-IIS/10.0
+X-Powered-By: ASP.NET
+Date: Tue, 30 May 2023 12:51:14 GMT
+```
