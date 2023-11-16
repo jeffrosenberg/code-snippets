@@ -21,7 +21,7 @@ if it got missed, i.e. if cloning on Windows but using WSL.
 
 ## Email patches
 
-In rare circumstances, you may lack network access to an upstream remote
+In some circumstances, you may lack network access to an upstream remote
 (just as a hypothetical scenario, this could happen when you're trying to update
 your personal code snippets repository over a corporate network).
 In that case, you may still be able to "push" commits by emailing a patch.
@@ -34,7 +34,7 @@ Reading:
 
 ```
 # Switch to the base branch that is missing the new changes
-git checkout maain
+git checkout main
 
 # Create patch files for all new commits in a branch
 git format-patch my-branch
